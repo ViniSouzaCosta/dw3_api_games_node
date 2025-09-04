@@ -13,4 +13,20 @@ const createUser = async (req , res) => {
         res.sendStatus(500); //Erro interno do servidor
     }
 };
-export default {createUser};
+
+// FUNÇÃO para realizar o LOGIN
+const loginUser = async(req,res) =>{
+    try{
+        const {email, password} = req.body
+        const user = await userService.getOne(email)
+        if (user != undefined) {
+            res.status(200).json({ sucess: "Login efetuado com sucesso!" });
+        } else {
+            res.status(404).json({ error: "Usuário não encontrado!"});
+        }
+    }catch (error) {
+        console.log(error);
+        res.sendStatus(500);
+    }
+}
+export default {createUser, loginUser};
